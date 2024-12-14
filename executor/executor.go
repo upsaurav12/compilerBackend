@@ -47,7 +47,7 @@ func Execute(language string, code []byte, input string) (string, string) {
 }
 
 func runDockerContainer(tempDir string, dockerFiles string, fileName string, input string) (string, error) {
-	cmd := exec.Command("sudo", "docker", "build", "-t", "compiler-"+fileName, "-f", dockerFiles, tempDir)
+	cmd := exec.Command("docker", "build", "-t", "compiler-"+fileName, "-f", dockerFiles, tempDir)
 	var buildOut, buildErr bytes.Buffer
 	cmd.Stdout = &buildOut
 	cmd.Stderr = &buildErr
@@ -58,7 +58,7 @@ func runDockerContainer(tempDir string, dockerFiles string, fileName string, inp
 	}
 
 	// Run the Docker container
-	cmd = exec.Command("sudo", "docker", "run", "--rm", "compiler-"+fileName)
+	cmd = exec.Command("docker", "run", "--rm", "compiler-"+fileName)
 	if input != "" {
 		cmd.Stdin = strings.NewReader(input)
 	}
